@@ -1,0 +1,7 @@
+server:
+  host: localhost
+  port: 8000
+services:
+  - name: alert
+    endpoint: /alert/*
+    destination: http://localhost:9000
