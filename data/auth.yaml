@@ -1,0 +1,45 @@
+enabled: true
+confidential: SECRET_SALT
+admins:
+  - role: "sys-admin"
+    resource: "/*"
+    domain: "all"
+    users:
+      - "example@swavan.io"    
+key:
+  migration:
+    run: true
+domain:
+  migration:
+    run: true
+resource:
+  migration:
+    run: true
+role:
+  migration:
+    run: true
+secret:
+  migration:
+    run: true
+user:
+  migration:
+    run: true
+access:
+  actions:
+    - "read"
+    - "write"
+    - "delete"
+    - "update"
+  migration:
+    run: true
+  policy: |
+      [request_definition]
+      r = sub, dom, obj, act
+      [policy_definition]
+      p = sub, dom, obj, act
+      [role_definition]
+      g = _, _, _
+      [policy_effect]
+      e = some(where (p.eft == allow))
+      [matchers]
+      m = g(r.sub, p.sub, r.dom) && r.dom == p.dom && r.obj == p.obj && r.act == p.act || r.sub == "sys-admin"

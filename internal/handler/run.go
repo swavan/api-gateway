@@ -6,19 +6,42 @@ import (
 	"net/url"
 
 	"github.com/swavan.io/gateway/internal/config"
+	"github.com/swavan.io/gateway/pkg/authentication"
 )
 
-func Run(ctx context.Context, mux *http.ServeMux) error {
+func Run(ctx context.Context, mux *http.ServeMux, auth authentication.AuthenticationAPI) error {
 	mux.HandleFunc("/health", health)
-	for _, resource := range config.Config.Services {
+
+	authMiddleware, err := NewAuthMiddleware(ctx, auth)
+	if err != nil {
+		return err
+	}
+	for _, resource := range config.Config.Resources {
+
+		if !resource.Active {
+			continue
+		}
+
 		url, err := url.Parse(resource.Destination)
 		if err != nil {
 			return err
 		}
+
+		if resource.Authenticated {
+			mux.HandleFunc(
+				resource.Endpoint,
+				authMiddleware.Guard(NewReverseProxy(url, resource.Endpoint).ServeHTTP),
+			)
+			continue
+		}
+
 		mux.HandleFunc(
 			resource.Endpoint,
-			NewReverseProxy(url, resource.Endpoint).Redirect,
+			NewReverseProxy(url, resource.Endpoint).ServeHTTP,
 		)
+
 	}
+
+	NewLogger(mux)
 	return nil
 }

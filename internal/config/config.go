@@ -5,15 +5,17 @@ type Server struct {
 	Port int    `mapstructure:"port"`
 }
 
-type Service struct {
-	Name        string `mapstructure:"name"`
-	Endpoint    string `mapstructure:"endpoint"`
-	Destination string `mapstructure:"destination"`
+type Resource struct {
+	Name          string `mapstructure:"name"`
+	Endpoint      string `mapstructure:"endpoint"`
+	Authenticated bool   `mapstructure:"authenticated"`
+	Destination   string `mapstructure:"destination"`
+	Active        bool   `mapstructure:"active"`
 }
 
 type configuration struct {
-	Server   Server    `mapstructure:"server"`
-	Services []Service `mapstructure:"services"`
+	Server    Server     `mapstructure:"server"`
+	Resources []Resource `mapstructure:"resources"`
 }
 
 var Config configuration

@@ -1,7 +1,10 @@
 server:
   host: localhost
   port: 8000
-services:
+
+resources:
   - name: alert
     endpoint: /alert/*
     destination: http://localhost:9000
+    active: true
+    authenticated: true
