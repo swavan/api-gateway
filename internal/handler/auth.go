@@ -16,15 +16,15 @@ func (a *Auth) Login(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	user, err := a.api.User().
-		FindByUsername(
-			r.Context(),
-			payload.Username)
+	// user, err := a.api.User().
+	// 	FindByUsername(
+	// 		r.Context(),
+	// 		payload.Username)
 
-	if err != nil {
-		w.WriteHeader(http.StatusNotFound)
-		return
-	}
+	// if err != nil {
+	// 	w.WriteHeader(http.StatusNotFound)
+	// 	return
+	// }
 
 	if r.Header.Get("Content-Type") != "application/json" {
 		return

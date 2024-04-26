@@ -2,6 +2,7 @@ package handler
 
 import (
 	"context"
+	"fmt"
 	"net/http"
 	"net/url"
 
@@ -35,6 +36,7 @@ func Run(ctx context.Context, mux *http.ServeMux, auth authentication.Authentica
 			continue
 		}
 
+		fmt.Println(resource.Endpoint)
 		mux.HandleFunc(
 			resource.Endpoint,
 			NewReverseProxy(url, resource.Endpoint).ServeHTTP,

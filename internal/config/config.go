@@ -2,7 +2,7 @@ package config
 
 type Server struct {
 	Host string `mapstructure:"host"`
-	Port int    `mapstructure:"port"`
+	Port string `mapstructure:"port"`
 }
 
 type Resource struct {

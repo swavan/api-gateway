@@ -34,7 +34,9 @@ type Auth struct {
 }
 
 func NewAuthMiddleware(ctx context.Context, api authentication.AuthenticationAPI) (*Auth, error) {
-	key, err := api.Key().FetchKey(ctx, os.Getenv("APP_NAME"))
+	key, err := api.
+		Key().
+		FetchKey(ctx, os.Getenv("APP_NAME"))
 	if err != nil {
 		return nil, err
 	}

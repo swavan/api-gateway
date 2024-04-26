@@ -41,7 +41,7 @@ func (s *Salt) Encrypt(text string) (string, error) {
 		nonce,
 		[]byte(text),
 		nil)
-	return string(base64.RawURLEncoding.EncodeToString(bytes)), nil
+	return base64.StdEncoding.EncodeToString(bytes), nil
 }
 
 func (s *Salt) Decrypt(cipherText string) (string, error) {
@@ -56,7 +56,7 @@ func (s *Salt) Decrypt(cipherText string) (string, error) {
 	}
 	nonceSize := gcm.NonceSize()
 
-	bytes, err := base64.RawStdEncoding.DecodeString(cipherText)
+	bytes, err := base64.StdEncoding.DecodeString(cipherText)
 	if err != nil {
 		return "", err
 	}

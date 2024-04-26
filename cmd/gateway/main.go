@@ -41,5 +41,5 @@ func main() {
 	}
 	mux := http.NewServeMux()
 	handler.Run(context.Background(), mux, authentication)
-	http.ListenAndServe(":8000", mux)
+	http.ListenAndServe(srvConfig.Config.Server.Port, mux)
 }
